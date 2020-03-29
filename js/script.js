@@ -44,7 +44,7 @@ function showPage(list, page){
    let endIndex = page * itemsPerPage; 
    console.log(startIndex);
    console.log(endIndex);
-   for(i=0; i < list.length; i += 1 ) {  
+   for(let i=0; i < list.length; i += 1 ) {  
       let li = studentList[i];
       if((startIndex <= i) && (i < endIndex)) { // 0 <= 2 and 2 <= 10
          li.style.display = '';
@@ -62,7 +62,30 @@ function showPage(list, page){
    functionality to the pagination buttons.
 ***/
 
+function createLinks(list) { 
+   const div = document.createElement('div');
+   const ul = document.createElement('ul');
+   let length = list.length;
+   let numOfPages = Math.ceil(length / itemsPerPage);
+   div.className = 'pagination';
+  
+   div.appendChild(ul);
 
+   for (let i = 0; i < numOfPages; i += 1) {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.textContent = i + 1;
+      a.href = '#';
+      li.appendChild(a);
+      ul.appendChild(li); 
+}
+
+let lis = ul.children;
+
+lis[0].className = 'active';
+
+return div;
+}
 
 
 
