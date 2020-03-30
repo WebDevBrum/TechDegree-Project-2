@@ -65,6 +65,7 @@ function showPage(list, page){
 function createLinks(list) { 
    const div = document.createElement('div');
    const ul = document.createElement('ul');
+   
    let length = list.length;
    let numOfPages = Math.ceil(length / itemsPerPage);
    div.className = 'pagination';
@@ -79,13 +80,33 @@ function createLinks(list) {
       li.appendChild(a);
       ul.appendChild(li); 
 }
+const mainDiv = document.querySelector('.page');
 
+mainDiv.appendChild(div);
 let lis = ul.children;
 
-lis[0].className = 'active';
 
-return div;
+
+let pageButton = document.querySelectorAll('a');
+pageButton[0].className = 'active';
+for(let i = 0; i < pageButton.length; i += 1) {
+   pageButton[i].addEventListener('click', (e) => {
+      for(let i = 0; i < pageButton.length; i += 1) {
+         pageButton[i].className = ''; 
+   }
+   
+   let pageSelected = e.target.textContent;
+   let pagePosition = (pageSelected) - 1; // the pageButton array position to set active class
+   pageButton[pagePosition].className = 'active';
+   showPage(studentList, pageSelected);
+
+});
 }
+
+}
+
+showPage(studentList, 1);
+createLinks(studentList);
 
 
 
