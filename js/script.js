@@ -42,18 +42,15 @@ let itemsPerPage = 10;
 function showPage(list, page){
    let startIndex = (page * itemsPerPage) - itemsPerPage;
    let endIndex = page * itemsPerPage; 
-   console.log(startIndex);
-   console.log(endIndex);
+   
    for(let i=0; i < list.length; i += 1 ) {  
       let li = studentList[i];
-      if((startIndex <= i) && (i < endIndex)) { // 0 <= 2 and 2 <= 10
+      if((startIndex <= i) && (i < endIndex)) { 
          li.style.display = '';
       } else {
          li.style.display = 'none';
       }
-
    }
-
 }
 
 
@@ -61,53 +58,79 @@ function showPage(list, page){
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
+function createElement(elementName) {
+   const element = document.createElement(elementName);
+   return element;
+}
 
-function createLinks(list) { 
-   const div = document.createElement('div');
-   const ul = document.createElement('ul');
-   
+/**
+ * Create page links function which adds a number of page buttons based on the 
+ * total list items and then adds functionality to access different groups within the 
+ * list, eg pg 1 10 items, pg 2 next 10 items
+ */
+
+function appendPageLinks(list) { 
+   const div = createElement('div'); 
+   const ul =  createElement('ul');
+   const mainDiv = document.querySelector('.page');
    let length = list.length;
    let numOfPages = Math.ceil(length / itemsPerPage);
-   div.className = 'pagination';
-  
-   div.appendChild(ul);
-
-   for (let i = 0; i < numOfPages; i += 1) {
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.textContent = i + 1;
-      a.href = '#';
-      li.appendChild(a);
-      ul.appendChild(li); 
-}
-const mainDiv = document.querySelector('.page');
-
-mainDiv.appendChild(div);
-let lis = ul.children;
-
-
-
-let pageButton = document.querySelectorAll('a');
-pageButton[0].className = 'active';
-for(let i = 0; i < pageButton.length; i += 1) {
-   pageButton[i].addEventListener('click', (e) => {
-      for(let i = 0; i < pageButton.length; i += 1) {
-         pageButton[i].className = ''; 
-   }
    
-   let pageSelected = e.target.textContent;
-   let pagePosition = (pageSelected) - 1; // the pageButton array position to set active class
-   pageButton[pagePosition].className = 'active';
-   showPage(studentList, pageSelected);
+   div.className = 'pagination';
+   div.appendChild(ul);
+   mainDiv.appendChild(div); //above appends initial container element 
+   
+   for (let i = 0; i < numOfPages; i += 1) {
+      const li = createElement('li');
+      const a = createElement('a');
+      li.appendChild(a);
+      ul.appendChild(li);
+      a.textContent = i + 1;
+      a.href = '#'; //this appends a list of links to new container
+   }
 
-});
+   let pageButton = document.querySelectorAll('a');
+   pageButton[0].className = 'active'; //selects all 'a' elements
+   
+   for(let i = 0; i < pageButton.length; i += 1) {
+
+      pageButton[i].addEventListener('click', (e) => { //adds event listener to a elements
+
+         for(let i = 0; i < pageButton.length; i += 1) {
+            pageButton[i].className = '';  //clears class names on click
+         }
+
+         let pageSelected = e.target.textContent;
+         let pageIndex = i; 
+         pageButton[pageIndex].className = 'active'; //sets selected button class as active
+         showPage(studentList, pageSelected); //shows correct page based on button clicked
+      });
+   }
 }
 
-}
-
-showPage(studentList, 1);
-createLinks(studentList);
+showPage(studentList, 1); //initialises page to page 1 of required list
+appendPageLinks(studentList); //adds page links to required list
 
 
 
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
+
+function searchBar() {
+      const div = createElement('div');
+      const input = createElement('input');
+      const button = createElement('button');
+      const headerDiv = document.querySelector('.page-header.cf');
+      button.textContent = 'search';
+      div.className = 'student-search';
+      input.placeholder = 'Search for students...';
+      input.type = 'text';
+
+      div.appendChild(input);
+      div.appendChild(button);
+
+      headerDiv.appendChild(div);
+
+      
+}
+
+searchBar();
