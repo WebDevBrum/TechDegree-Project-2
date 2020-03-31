@@ -114,23 +114,19 @@ appendPageLinks(studentList); //adds page links to required list
 
 
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
-
-function searchBar() {
+const headerDiv = document.querySelector('.page-header.cf');
+function appendSearchBar(element) {
       const div = createElement('div');
       const input = createElement('input');
       const button = createElement('button');
-      const headerDiv = document.querySelector('.page-header.cf');
+      
       button.textContent = 'search';
       div.className = 'student-search';
       input.placeholder = 'Search for students...';
       input.type = 'text';
-
       div.appendChild(input);
       div.appendChild(button);
-
-      headerDiv.appendChild(div);
-
-      
+      element.appendChild(div);
 }
 
-searchBar();
+appendSearchBar(headerDiv);
