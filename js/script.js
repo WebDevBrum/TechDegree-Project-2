@@ -114,6 +114,7 @@ appendPageLinks(studentList); //adds page links to required list
 
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
 const headerDiv = document.querySelector('.page-header.cf');
+let searchList = [];
 
 function appendSearchBar(element) {
       const div = createElement('div');
@@ -129,28 +130,45 @@ function appendSearchBar(element) {
 
       
      function search(searchInput, names){
-        
+      
+       searchList = [];   
        let input = searchInput.toString().toLowerCase();
-        console.log(input);
-        
+      //   console.log(input);
+      for (let i = 0; i < names.length; i += 1){
+      names[i].style.display = ''; }
+         
 
         for (let i = 0; i < names.length; i += 1) {
+         
+         
          let searchName = names[i].querySelector('h3');
          let stringName = searchName.textContent.toString().toLowerCase();
          let match = stringName.indexOf(input);
-         console.log(stringName);
-         console.log(match);
+         
+         
 
-         if (match != -1 ) { //this bit isnt working!!!
-            names[i].style.display = ' ';
+         if (match != (-1)) { //add empty search feature
+            names[i].style.display = '';
+            searchList.push(names[i]);
+            
          } else {
             names[i].style.display = 'none';
 
          }
+
+         
          // if (names[i].className != 'match') {
          //    names[i].style.display = 'none';
          // }
       }
+         var test = document.querySelector('.page');
+         var remove = document.querySelector('.pagination');
+         test.removeChild(remove);
+         console.log(searchList)
+         //showPage(searchList, 1); //initialises page to page 1 of required list
+        appendPageLinks(searchList);
+
+      
      } 
       
       
@@ -160,6 +178,8 @@ function appendSearchBar(element) {
          event.preventDefault();
 // Invoke your search function here - Arguments: search, tableCells
          search(input.value, studentList);
+         
+         
          console.log('Submit button is functional!');
 });
 
@@ -167,7 +187,7 @@ function appendSearchBar(element) {
          input.addEventListener('keyup', () => {
 
             // Invoke your search function here - Arguments: search, tableCells
-          
+            search(input.value, studentList);
           
             // Helpful log statement to test function
             console.log('Keyup event on the Search input is functional!');
