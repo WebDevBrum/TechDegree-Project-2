@@ -18,7 +18,6 @@ FSJS project 2 - List Filter and Pagination
 ***/
 
 const studentList = document.querySelector('.student-list').children;
-console.log(studentList);
 let itemsPerPage = 10;
 
 
@@ -115,18 +114,66 @@ appendPageLinks(studentList); //adds page links to required list
 
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
 const headerDiv = document.querySelector('.page-header.cf');
+
 function appendSearchBar(element) {
       const div = createElement('div');
       const input = createElement('input');
       const button = createElement('button');
-      
       button.textContent = 'search';
       div.className = 'student-search';
       input.placeholder = 'Search for students...';
       input.type = 'text';
       div.appendChild(input);
       div.appendChild(button);
-      element.appendChild(div);
+      element.appendChild(div); //above creates none functional bar to be appended
+
+      
+     function search(searchInput, names){
+        
+       let input = searchInput.toString().toLowerCase();
+        console.log(input);
+        
+
+        for (let i = 0; i < names.length; i += 1) {
+         let searchName = names[i].querySelector('h3');
+         let stringName = searchName.textContent.toString().toLowerCase();
+         let match = stringName.indexOf(input);
+         console.log(stringName);
+         console.log(match);
+
+         if (match != -1 ) { //this bit isnt working!!!
+            names[i].style.display = ' ';
+         } else {
+            names[i].style.display = 'none';
+
+         }
+         // if (names[i].className != 'match') {
+         //    names[i].style.display = 'none';
+         // }
+      }
+     } 
+      
+      
+      
+      
+      button.addEventListener('click', (event) => { // just searches current page??
+         event.preventDefault();
+// Invoke your search function here - Arguments: search, tableCells
+         search(input.value, studentList);
+         console.log('Submit button is functional!');
+});
+
+
+         input.addEventListener('keyup', () => {
+
+            // Invoke your search function here - Arguments: search, tableCells
+          
+          
+            // Helpful log statement to test function
+            console.log('Keyup event on the Search input is functional!');
+          });
+       
+
 }
 
 appendSearchBar(headerDiv);
