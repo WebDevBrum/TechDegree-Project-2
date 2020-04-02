@@ -43,7 +43,7 @@ function showPage(list, page){
    let endIndex = page * itemsPerPage; 
    
    for(let i=0; i < list.length; i += 1 ) {  
-      let li = studentList[i];
+      let li = list[i];
       if((startIndex <= i) && (i < endIndex)) { 
          li.style.display = '';
       } else {
@@ -102,7 +102,7 @@ function appendPageLinks(list) {
          let pageSelected = e.target.textContent;
          let pageIndex = i; 
          pageButton[pageIndex].className = 'active'; //sets selected button class as active
-         showPage(studentList, pageSelected); //shows correct page based on button clicked
+         showPage(list, pageSelected); //shows correct page based on button clicked
       });
    }
 }
@@ -127,10 +127,19 @@ function appendSearchBar(element) {
       div.appendChild(input);
       div.appendChild(button);
       element.appendChild(div); //above creates none functional bar to be appended
-
-      
+     
+     //for search fail change madiv name and maybe append below input instead of head 
+      const maDiv = document.querySelector('.page');
+       
+       const title = maDiv.querySelector('h2');
+       const p = createElement('p');
+       p.textContent = "Sorry , no matching results found";
+       p.style.display = 'none';  
+       title.appendChild(p);     
+      //
      function search(searchInput, names){
-      
+       const mainDiv = document.querySelector('.page');
+       
        searchList = [];   
        let input = searchInput.toString().toLowerCase();
       //   console.log(input);
@@ -153,19 +162,27 @@ function appendSearchBar(element) {
             
          } else {
             names[i].style.display = 'none';
-
          }
 
-         
+      if(searchList.length === 0) {
+         p.style.display = '';
+      } else if (searchList.length > 0) {
+         p.style.display = 'none';
+      }
+      
          // if (names[i].className != 'match') {
          //    names[i].style.display = 'none';
          // }
       }
+      // if(searchList.length === 0) {
+      //  console.log('testing');
+         
+      // }
          var test = document.querySelector('.page');
          var remove = document.querySelector('.pagination');
          test.removeChild(remove);
          console.log(searchList)
-         //showPage(searchList, 1); //initialises page to page 1 of required list
+         showPage(searchList, 1); //initialises page to page 1 of required list
         appendPageLinks(searchList);
 
       
