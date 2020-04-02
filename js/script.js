@@ -89,7 +89,8 @@ function appendPageLinks(list) {
    }
 
    let pageButton = document.querySelectorAll('a');
-   pageButton[0].className = 'active'; //selects all 'a' elements
+   if(pageButton[0] != undefined) {
+   pageButton[0].className = 'active';} //selects all 'a' elements
    
    for(let i = 0; i < pageButton.length; i += 1) {
 
@@ -132,10 +133,10 @@ function appendSearchBar(element) {
       const maDiv = document.querySelector('.page');
        
        const title = maDiv.querySelector('h2');
-       const p = createElement('p');
-       p.textContent = "Sorry , no matching results found";
-       p.style.display = 'none';  
-       title.appendChild(p);     
+       const noMatch = createElement('p');
+       noMatch.textContent = "Sorry , no matching results found.";
+       noMatch.style.display = 'none';  
+       maDiv.appendChild(noMatch);     
       //
      function search(searchInput, names){
        const mainDiv = document.querySelector('.page');
@@ -165,9 +166,9 @@ function appendSearchBar(element) {
          }
 
       if(searchList.length === 0) {
-         p.style.display = '';
+         noMatch.style.display = '';
       } else if (searchList.length > 0) {
-         p.style.display = 'none';
+         noMatch.style.display = 'none';
       }
       
          // if (names[i].className != 'match') {
