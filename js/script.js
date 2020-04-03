@@ -3,39 +3,20 @@ Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
    
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
 
 
 /*** 
-   Add your global variables that store the DOM elements you will 
-   need to reference and/or manipulate. 
-   
-   But be mindful of which variables should be global and which 
-   should be locally scoped to one of the two main functions you're 
-   going to create. A good general rule of thumb is if the variable 
-   will only be used inside of a function, then it can be locally 
-   scoped to that function.
+   Global variables
 ***/
 
 const studentList = document.querySelector('.student-list').children;
+const mainDiv = document.querySelector('.page');
+const headerDiv = document.querySelector('.page-header.cf');
 let itemsPerPage = 10;
 
-
-
-
 /*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
-
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
+  `showPage` function that hides all list items  
+   except for the ten you want to show.
 ***/
 
 function showPage(list, page){
@@ -52,10 +33,8 @@ function showPage(list, page){
    }
 }
 
-
 /*** 
-   Create the `appendPageLinks function` to generate, append, and add 
-   functionality to the pagination buttons.
+   helper function for creating Dom elements
 ***/
 function createElement(elementName) {
    const element = document.createElement(elementName);
@@ -71,7 +50,7 @@ function createElement(elementName) {
 function appendPageLinks(list) { 
    const div = createElement('div'); 
    const ul =  createElement('ul');
-   const mainDiv = document.querySelector('.page');
+   
    let length = list.length;
    let numOfPages = Math.ceil(length / itemsPerPage);
    
@@ -111,107 +90,69 @@ function appendPageLinks(list) {
 showPage(studentList, 1); //initialises page to page 1 of required list
 appendPageLinks(studentList); //adds page links to required list
 
-
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
-const headerDiv = document.querySelector('.page-header.cf');
-let searchList = [];
+/**
+ * The below function appends a search bar to the given location on a page 
+ * it then adds search functionality matching user input to a list of names
+ * Finally it then utilises two even listeners, one to listen for the click of the submmit button
+ * and a second to live search against user input by using a keyup listener
+ */
 
 function appendSearchBar(element) {
-      const div = createElement('div');
-      const input = createElement('input');
-      const button = createElement('button');
-      button.textContent = 'search';
-      div.className = 'student-search';
-      input.placeholder = 'Search for students...';
-      input.type = 'text';
-      div.appendChild(input);
-      div.appendChild(button);
-      element.appendChild(div); //above creates none functional bar to be appended
-     
-     //for search fail change madiv name and maybe append below input instead of head 
-      const maDiv = document.querySelector('.page');
-       
-       const title = maDiv.querySelector('h2');
-       const noMatch = createElement('p');
-       noMatch.textContent = "Sorry , no matching results found.";
-       noMatch.style.display = 'none';  
-       maDiv.appendChild(noMatch);     
-      //
-     function search(searchInput, names){
-       const mainDiv = document.querySelector('.page');
-       
-       searchList = [];   
-       let input = searchInput.toString().toLowerCase();
-      //   console.log(input);
-      for (let i = 0; i < names.length; i += 1){
-      names[i].style.display = ''; }
+   //creates initial search bar
+   const div = createElement('div');
+   const input = createElement('input');
+   const button = createElement('button');
+   const noMatch = createElement('p');
+   let searchList = [];
+   button.textContent = 'search';
+   div.className = 'student-search';
+   input.placeholder = 'Search for students...';
+   input.type = 'text';
+   div.appendChild(input);
+   div.appendChild(button);
+   element.appendChild(div); 
+   noMatch.textContent = "Sorry , no matching results found.";
+   noMatch.style.display = 'none';  
+   mainDiv.appendChild(noMatch);     
+      //adds search bar functionality
+      function search(searchInput, names) {
+         let searchContent = searchInput.value;
+         let input = searchContent.toString().toLowerCase();
+         const pageLinks = document.querySelector('.pagination');
+         searchList = [];   
          
+         for (let i = 0; i < names.length; i += 1) {
+            let searchName = names[i].querySelector('h3');
+            let stringName = searchName.textContent.toString().toLowerCase();
+            let match = stringName.indexOf(input);
+         
+            if (match != (-1)) { 
+               names[i].style.display = '';
+               searchList.push(names[i]);
+            } else {
+               names[i].style.display = 'none';
+            }
 
-        for (let i = 0; i < names.length; i += 1) {
-         
-         
-         let searchName = names[i].querySelector('h3');
-         let stringName = searchName.textContent.toString().toLowerCase();
-         let match = stringName.indexOf(input);
-         
-         
-
-         if (match != (-1)) { //add empty search feature
-            names[i].style.display = '';
-            searchList.push(names[i]);
-            
-         } else {
-            names[i].style.display = 'none';
+            if (searchList.length === 0) {
+               noMatch.style.display = '';
+            } else if (searchList.length > 0) {
+               noMatch.style.display = 'none';
+            }
          }
-
-      if(searchList.length === 0) {
-         noMatch.style.display = '';
-      } else if (searchList.length > 0) {
-         noMatch.style.display = 'none';
-      }
-      
-         // if (names[i].className != 'match') {
-         //    names[i].style.display = 'none';
-         // }
-      }
-      // if(searchList.length === 0) {
-      //  console.log('testing');
-         
-      // }
-         var test = document.querySelector('.page');
-         var remove = document.querySelector('.pagination');
-         test.removeChild(remove);
-         console.log(searchList)
-         showPage(searchList, 1); //initialises page to page 1 of required list
-        appendPageLinks(searchList);
-
-      
-     } 
-      
-      
-      
-      
-      button.addEventListener('click', (event) => { // just searches current page??
-         event.preventDefault();
-// Invoke your search function here - Arguments: search, tableCells
-         search(input.value, studentList);
-         
-         
-         console.log('Submit button is functional!');
-});
-
-
-         input.addEventListener('keyup', () => {
-
-            // Invoke your search function here - Arguments: search, tableCells
-            search(input.value, studentList);
-          
-            // Helpful log statement to test function
-            console.log('Keyup event on the Search input is functional!');
-          });
-       
-
+        //removes previous pagination links and adds new links based on search results
+         mainDiv.removeChild(pageLinks);
+         showPage(searchList, 1); 
+         appendPageLinks(searchList);
+      } 
+     //event listener for submit button 
+   button.addEventListener('click', (event) => { 
+      event.preventDefault();
+      search(input, studentList);
+   });
+      //reactive event listener for searchbar entry
+   input.addEventListener('keyup', () => {
+      search(input, studentList);
+   });
 }
 
 appendSearchBar(headerDiv);
