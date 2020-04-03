@@ -1,3 +1,7 @@
+---
+permalink: /index.html
+---
+
 TechDegree Project 2
 Pagination and filtering 
 A description of the project in your own words
