@@ -2,6 +2,12 @@
 permalink: /index.html
 ---
 
+CONTENTS OF THIS FILE
+---------------------
+
+ * Introduction
+
+
 TechDegree Project 2
 Pagination and filtering 
 A description of the project in your own words
@@ -26,3 +32,11 @@ Pro Tip: To paginate the search results, try storing the search results in an ar
 Handle no results returned
 If no matches are found by the search, include a message in the HTML to tell the user there are no matches. (MESSAGE 'Sorry no ,matches found added to page')
 
+
+ * Requirements
+ * Recommended modules
+ * Installation
+ * Configuration
+ * Troubleshooting
+ * FAQ
+ * Maintainers
